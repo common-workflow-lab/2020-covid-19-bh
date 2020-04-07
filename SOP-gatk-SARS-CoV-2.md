@@ -1,3 +1,7 @@
+TODO: who wrote this?
+TODO: What is the purpose?
+TODO: What type of data is it appropriate for?
+
 # Standard operating protocol for variant calling using GATK
 Software installation and environment setup 
       - Access .jar file for each GATK and PICARD tool from their respective folder.

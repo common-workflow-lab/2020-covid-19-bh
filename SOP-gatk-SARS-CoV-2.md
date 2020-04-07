@@ -102,7 +102,7 @@ Command-line usage:
 
 Where
 
-AddOrReplaceReadGroup.jar - Picard tool to merge all read groups and assign single read group ID.
+AddOrReplaceReadGroup - Picard tool to merge all read groups and assign single read group ID.
 
 input_file - Alignment file in .sam format.
 
@@ -138,7 +138,7 @@ Duplicate sequenced reads are marked and removed using PICARD tool MarkDuplicate
 
 Command-line usage:
 
-java -jar MarkDuplicates.jar -I input_file -O output_file -M output_metrics 
+./gatk MarkDuplicates -I input_file -O output_file -M output_metrics 
 
 Where
 
@@ -238,13 +238,13 @@ samtools faidx sars-cov-2.fasta
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-java -jar GenomeAnalysisTK.jar -T SplitNCigarReads -R sars-cov-2.fasta -I sars-cov-2-mutantmarkdup.bam -o sars-cov-2-mutantsplit.bam -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS
+./gatk SplitNCigarReads -R sars-cov-2.fasta -I sars-cov-2-mutantmarkdup.bam -O sars-cov-2-mutantsplit.bam -RF ReassignOneMappingQuality 
 
-java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R sars-cov-2.fasta -I sars-cov-2-mutantsplit.bam -o sars-cov-2-mutant.vcf -dontUseSoftClippedBases -stand_call_conf 20.0 -stand_emit_conf 20.0
+./gatk HaplotypeCaller -R sars-cov-2.fasta -I sars-cov-2-mutantsplit.bam -O sars-cov-2-mutant.vcf 
 
-java -jar GenomeAnalysisTK.jar -T VariantFiltration -R sars-cov-2.fasta -V  sars-cov-2-mutant.vcf -window 35 -cluster 3 -filterName FS -filter "FS > 30.0" -filterName QD -filter "QD < 2.0" -o sars-cov-2-mutantfilter.vcf 
+./gatk VariantFiltration -R sars-cov-2.fasta -V sars-cov-2-mutant.vcf -O sars-cov-2-mutantfilter.vcf 
 
-java -jar GenomeAnalysisTK.jar -T SelectVariants -R sars-cov-2.fasta -V sars-cov-2-mutantfilter.vcf -o sars-cov-2-indel.vcf -selectType indel
+./gatk SelectVariants -R sars-cov-2.fasta -V sars-cov-2-mutantfilter.vcf -O sars-cov-2-indel.vcf -selectType indel
 
 java -jar GenomeAnalysisTK.jar -T SelectVariants -R sars-cov-2.fasta -V sars-cov-2-mutantfilter.vcf -o sars-cov-2-snp.vcf -selectType snp
 

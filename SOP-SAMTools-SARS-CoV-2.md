@@ -8,8 +8,7 @@ ambari73_sit@jnu.ac.in
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
-Standard Operating Protocol using SAMTools serves the purpose of genome variants discovery i.e SNPs and INDELS. It will be useful in analysing genomic 
-variations into SARS-CoV-2 genome.
+Standard Operating Protocol using SAMTools serves the purpose of genome variants discovery i.e SNPs and INDELS. It will be useful in analysing genomic variations into SARS-CoV-2 genome.
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -105,7 +104,7 @@ where
 
 <pileup file> - pileup file for each genomic position.
 
-SARS-CoV-2.### Variants calling
+### Variants calling
 
 Bcftools view utility calls variants from samtools generated pileup file.
 

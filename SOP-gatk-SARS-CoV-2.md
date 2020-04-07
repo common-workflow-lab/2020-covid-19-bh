@@ -18,25 +18,23 @@ Tool description
 
 - Bowtie2
 
-- SAMTools
-
-- PICARD
-
-- GATK3
+- GATK4
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
-Purpose is to generate CWL script for SOP for genomic variant detection using GATK3. SARS-CoV-2 virus genome will be a case study for it.
+Purpose is to generate CWL script for SOP for genomic variant detection using GATK4. SARS-CoV-2 virus genome will be a case study for it.
 
 It uses illumina RNASEQ reads and genome sequence. 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Standard operating protocol for variant calling using GATK
 Software installation and environment setup 
-      - Access .jar file for each GATK and PICARD tool from their respective folder.
+      - Access gatk executable from its respective foder.
       - Export absolute path of bowtie executables using bash variable $PATH.
+
 ## Mapping to the reference genome
+
 Mutated read data are mapped against reference genome using aligner - bowtie2.
 Mapping steps can further be split into indexing and alignment steps.
 
@@ -84,17 +82,23 @@ alignment_file - alignment file in .sam format.
       
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-###### Data pre-processing using PICARD tools
+###### Data pre-processing using PICARD tools. It comes bundled with GATK4 package.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
+
+## Preparation of index and dictionary files
+
+samtools faidx reference_genome 
+
+./gatk CreateSequenceDictionary.jar -R reference_genome -O reference_genome_dictionary
+
 ## Add read groups, sort, mark duplicates, and create index
 
 In this step, we merge all read groups with different  sequencing lane reads and read group header @RG and assign a single read group header.
 
 Command-line usage:
 
-java -jar  AddOrReplaceReadGroups.jar -I input_file -O output_file_name -RGID rgid_id -RGLB rglb_string -RGPL rgpl_string -RGSM rgsm _string -RGPU rgpu_string
+./gatk AddOrReplaceReadGroups -I input_file -O output_file_name -ID rgid_id -LB rglb_string -PL rgpl_string -SM rgsm _string -PU rgpu_string
 
 Where
 
@@ -118,7 +122,7 @@ This step sorts and indexes the reads, and converts between SAM to BAM format. T
 
 Command-line usage:
 
-java -jar SortSam.jar I=input_file O=output_file CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT SORT_ORDER=coordinate
+./gatk SortSam -I input_file -O output_file -SO coordinate
 
 Where
 
@@ -126,13 +130,15 @@ Input_file -  Sorted bam file
 
 Output_file  - The sorted BAM or SAM output file
 
+coordinate signifies sort order as per sequence coordinate.
+
 ## Mark the duplicate reads
 
 Duplicate sequenced reads are marked and removed using PICARD tool MarkDuplicates.jar
 
 Command-line usage:
 
-java -jar MarkDuplicates.jar I=input_file O=output_file CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT M=output_metrics 
+java -jar MarkDuplicates.jar -I input_file -O output_file -M output_metrics 
 
 Where
 
@@ -148,7 +154,7 @@ Hardclip the hanging part of reads into intronic region and assign reads mapping
 
 Command-line usage:
 
-java -jar GenomeAnalysisTK.jar -T SplitNCigarReads -R reference_sequence -I input_file -o out_put -rf ReassignOneMappingQuality -RMQF rmqf_value -RMQT rmsqt_value -U ALLOW_N_CIGAR_READS
+./gatk SplitNCigarReads -R reference_sequence -I input_file -O out_put 
 
 Where
 
@@ -158,11 +164,6 @@ input_file - markedup .bam file.
 
 outputfile - split .bam output file.
 
-rf - allows read filter and mapping quality. 
-
-rmqf_value - RMQF value 255
-
-rmqt_value - RMQT value 60
 
 ## Variant calling
 
@@ -170,7 +171,7 @@ HaplotypeCaller - calls all plausible haplotypes and detect variants.
 
 Command-line usage:
 
-java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R reference_sequence  -I input_file -o output_file -dontUseSoftClippedBases -stand_call_conf stand_call_conf_value -stand_emit_conf stand_emit_conf_value
+./gatk HaplotypeCaller -R reference_sequence -I input_file -O output_file 
 
 Where
 
@@ -178,13 +179,6 @@ input_file   -   split bam file.
 
 output_file  -  vcf file as output.
 
-stand_call_conf_value   -   20.0 confidence interval value
-
-stand_emit_conf_value   -   20.0 confidence interval value
-
-stand_call_conf   - The minimum phred-scaled confidence threshold at which variants        should be called
-
-stand_call_emit   -   The minimum phred-scaled confidence threshold at which variants should be emitted (and filtered with LowQual if less than the calling threshold)
 
 ## Variant filtering
 
@@ -192,19 +186,11 @@ Filter out the low quality variants.
 
 Command-line usage
 
-java -jar GenomeAnalysisTK.jar -T VariantFiltration -R reference_genome -V  input file -window window_size -cluster cluster_size -filterName filter_name -filter "FS > 30.0" -filterName filter_name -filter "QD < 2.0" -o out_put
+./gatk VariantFiltration -V input_file -O out_put
 
 Where
 
-reference_genome   -  reference sequence in fasta file format.
-
 input_file  -   .vcf file i.e variant set to used as an input.
-
-window_size   -   window size in which to evaluate clustered snp’s.
-
-cluster_size   -   the no of snp’s which makeup a cluster.
-
-filter_name   -   name of the filter.
 
 out_put  -   filtered variants or VCF’s.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -235,15 +221,16 @@ samtools faidx sars-cov-2.fasta
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-java -jar CreateSequenceDictionary.jar R=sars-cov-2.fasta O=sars-cov-2.dict
+./gatk CreateSequenceDictionary -R sars-cov-2.fasta -O sars-cov-2.dict
 
 
 
-java -jar AddOrReplaceReadGroups.jar I=sars-cov-2-mutant.sam O=sars-cov-2-mutantsorted.bam RGID=1 RGLB=445_LIB RGPL=illumina RGSM=RNA RGPU=illumina
+./gatk AddOrReplaceReadGroups -I sars-cov-2-mutant.sam -O sars-cov-2-mutantsorted.bam -ID 1 -LB 445_LIB -PL illumina -SM RNA -PU illumina
 
-java -jar  SortSam.jar I=sars-cov-2-mutantsorted.bam O=sars-cov-2-mutantsort2.bam CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT SO=coordinate
+./gatk SortSam -I sars-cov-2-mutantsorted.bam -O sars-cov-2-mutantsort2.bam -SO=coordinate
 
-java -jar  MarkDuplicates.jar I=sars-cov-2-mutantsort2.bam O=sars-cov-2-mutantmarkdup.bam CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT M=output.metrics 
+
+./gatk MarkDuplicates -I sars-cov-2-mutantsort2.bam -O sars-cov-2-mutantmarkdup.bam -M output.metrics 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

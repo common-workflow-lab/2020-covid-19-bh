@@ -146,8 +146,7 @@ samtools index SARS-CoV-2-mutantsorted.bam
 
 samtools mpileup -uf SARS-CoV-2.fasta SARS-CoV-2-mutantsorted.bam | bcftools view -vcg - > SARS-CoV-2-mutantraw.vcf
 
-----------------------------------------------------------------------------------------------------------------------------------------
 
 Output file - SARS-CoV-2-mutantraw.vcf is combined file containing SNPs and INDELs.
 
-----------------------------------------------------------------------------------------------------------------------------------------
+

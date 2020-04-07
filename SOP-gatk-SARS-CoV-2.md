@@ -44,15 +44,15 @@ Mapping steps can further be split into indexing and alignment steps.
 Indexing is compressing and assigning genomic position to genome sequence for fast and efficient traversal of genomic bases. Indexing is performed for GATK using the bowtie command bowtie2-build.
 Command-line usage:
 
-bowtie2-build <reference genome> <index base name>
+bowtie2-build reference_genome index_base_name
 
 Where
 
 bowtie2-build - Bowtie command to build index of reference genome.
 
-<reference genome> - fasta format reference genome.
+reference_genome - fasta format reference genome.
 
-<index base name> - Base name of generated index file.
+index_base_name - Base name of generated index file.
 
 Alignment 
 
@@ -60,7 +60,7 @@ Alignment is matching read bases with that of reference genome sequence. It is p
 
 Command-line usage:
 
-bowtie2 -q -x <index> -1 <left read> -2 <right read> -S <alignment file>
+bowtie2 -q -x index -1 left_read -2 right_read -S alignment_file
 
 Where
 
@@ -68,7 +68,7 @@ bowtie2 - Bowtie command for alignment.
 
 q - bowtie option for fastq input file format.
 
-<index> - prefix for bowtie index.
+index - prefix for bowtie index.
 
 1 - option for left-end reads. 
 
@@ -76,11 +76,11 @@ q - bowtie option for fastq input file format.
 
 S - option for .sam format alignment file.
 
-<left read> - reads generated from forward strand.
+left_read - reads generated from forward strand.
 
-<right read> - reads generated from reverse strand.
+right_read - reads generated from reverse strand.
 
-<alignment file> - alignment file in .sam format.
+alignment_file - alignment file in .sam format.
       
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -94,36 +94,37 @@ In this step, we merge all read groups with different  sequencing lane reads and
 
 Command-line usage:
 
-java -jar  AddOrReplaceReadGroups.jar - I <input file> - O <output file name>  - RGID <rgid id> - RGLB <rglb string>  - RGPL <rgpl string> - RGSM <rgsm string> - RGPU <rgpu string>
+java -jar  AddOrReplaceReadGroups.jar -I input_file -O output_file_name -RGID rgid_id -RGLB rglb_string -RGPL rgpl_string -RGSM rgsm _string -RGPU rgpu_string
 
 Where
 
 AddOrReplaceReadGroup.jar - Picard tool to merge all read groups and assign single read group ID.
 
-<input file> - Alignment file in .sam format.
+input_file - Alignment file in .sam format.
 
-<output file> - Alignment file in .sam format with merged read group ID.
+output_file - Alignment file in .sam format with merged read group ID.
 
-<rglb string>   -   Read Group Library Required. 
+rglb_string   -   Read Group Library Required. 
 
-<rgpl string>   -   Read Group platform (e.g. illumina, solid) Required
+rgpl_string   -   Read Group platform (e.g. illumina, solid) Required
 
-<rgsm string>   -   Read Group sample name Required
+rgsm_string   -   Read Group sample name Required
 
-<rgpu string>   -   Read Group platform unit Required
+rgpu_string   -   Read Group platform unit Required
 
 ## Sort and Index
+
 This step sorts and indexes the reads, and converts between SAM to BAM format. The indexed bam file is further coordinate sorted using the PICARD tool SortSam.jar
 
 Command-line usage:
 
-java -jar SortSam.jar I=<input file> O=<output file> CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT SORT_ORDER=coordinate
+java -jar SortSam.jar I=input_file O=output_file CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT SORT_ORDER=coordinate
 
 Where
 
-<Input file> -  Sorted bam file
+Input_file -  Sorted bam file
 
-<Output file>  - The sorted BAM or SAM output file
+Output_file  - The sorted BAM or SAM output file
 
 ## Mark the duplicate reads
 
@@ -131,15 +132,15 @@ Duplicate sequenced reads are marked and removed using PICARD tool MarkDuplicate
 
 Command-line usage:
 
-java -jar MarkDuplicates.jar I=<input file> O=<output file> CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT M=<output metrics> 
+java -jar MarkDuplicates.jar I=input_file O=output_file CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT M=output_metrics 
 
 Where
 
-<input file> - sorted bam input file
+input_file - sorted bam input file
 
-<output file> - markdup bam file
+output_file - markdup bam file
 
-<output metrices> - File to write duplication metrics to Required
+output_metrices - File to write duplication metrics to Required
 
 ## Split'N'Trim and reassign mapping qualities
 
@@ -147,21 +148,21 @@ Hardclip the hanging part of reads into intronic region and assign reads mapping
 
 Command-line usage:
 
-java -jar GenomeAnalysisTK.jar -T SplitNCigarReads -R <reference sequence> -I <inputfile> -o <output> -rf ReassignOneMappingQuality -RMQF <rmqf value> -RMQT <rmsqt value> -U ALLOW_N_CIGAR_READS
+java -jar GenomeAnalysisTK.jar -T SplitNCigarReads -R reference_sequence -I input_file -o out_put -rf ReassignOneMappingQuality -RMQF rmqf_value -RMQT rmsqt_value -U ALLOW_N_CIGAR_READS
 
 Where
 
-<reference sequence> - reference sequence in fasta format.
+reference_sequence - reference sequence in fasta format.
 
-<input file> - markedup .bam file.
+input_file - markedup .bam file.
 
-<outputfile> - split .bam output file.
+outputfile - split .bam output file.
 
-<rf> - allows read filter and mapping quality. 
+rf - allows read filter and mapping quality. 
 
-<rmqf value> - RMQF value 255
+rmqf_value - RMQF value 255
 
-<rmqt value> - RMQT value 60
+rmqt_value - RMQT value 60
 
 ## Variant calling
 
@@ -169,21 +170,21 @@ HaplotypeCaller - calls all plausible haplotypes and detect variants.
 
 Command-line usage:
 
-java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R <reference sequence>  -I <inputfile> -o <outputfile> -dontUseSoftClippedBases -stand_call_conf <stand call conf value> -stand_emit_conf <stand emit conf  value>
+java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R reference_sequence  -I input_file -o output_file -dontUseSoftClippedBases -stand_call_conf stand_call_conf_value -stand_emit_conf stand_emit_conf_value
 
 Where
 
-<inputfile>   -   split bam file.
+input_file   -   split bam file.
 
-<outputfile>  -  vcf file as output.
+output_file  -  vcf file as output.
 
-<stand call conf value>   -   20.0 confidence interval value
+stand_call_conf_value   -   20.0 confidence interval value
 
-<stand emit conf value>   -   20.0 confidence interval value
+stand_emit_conf_value   -   20.0 confidence interval value
 
--stand_call_conf   - The minimum phred-scaled confidence threshold at which variants        should be called
+stand_call_conf   - The minimum phred-scaled confidence threshold at which variants        should be called
 
--stand_call_emit   -   The minimum phred-scaled confidence threshold at which variants should be emitted (and filtered with LowQual if less than the calling threshold)
+stand_call_emit   -   The minimum phred-scaled confidence threshold at which variants should be emitted (and filtered with LowQual if less than the calling threshold)
 
 ## Variant filtering
 
@@ -191,21 +192,21 @@ Filter out the low quality variants.
 
 Command-line usage
 
-java -jar GenomeAnalysisTK.jar -T VariantFiltration -R <reference genome> -V  <input file> -window <window size> -cluster <cluster size> -filterName <filter name> -filter "FS > 30.0" -filterName <filter name> -filter "QD < 2.0" -o <output>
+java -jar GenomeAnalysisTK.jar -T VariantFiltration -R reference_genome -V  input file -window window_size -cluster cluster_size -filterName filter_name -filter "FS > 30.0" -filterName filter_name -filter "QD < 2.0" -o out_put
 
 Where
 
-<reference genome>   -  reference sequence in fasta file format.
+reference_genome   -  reference sequence in fasta file format.
 
-<input file>  -   .vcf file i.e variant set to used as an input.
+input_file  -   .vcf file i.e variant set to used as an input.
 
-<window size>   -   window size in which to evaluate clustered snp’s.
+window_size   -   window size in which to evaluate clustered snp’s.
 
-<cluster size>   -   the no of snp’s which makeup a cluster.
+cluster_size   -   the no of snp’s which makeup a cluster.
 
-<filter name>   -   name of the filter.
+filter_name   -   name of the filter.
 
-<output>  -   filtered variants or VCF’s.
+out_put  -   filtered variants or VCF’s.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Command-line implementation 

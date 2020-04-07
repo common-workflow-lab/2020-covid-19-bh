@@ -20,33 +20,33 @@ It utilizes paired-end illumina RNASEQ datasets and reference genome of SARS-CoV
 
 Command-line usage:
 
-bowtie2-build <reference genome> <index base name>
+bowtie2-build reference_genome index_base_name
 
 where
 
 bowtie2-build - Bowtie command to build index of reference genome.
 
-<reference genome> - fasta format reference genome.
+reference_genome - fasta format reference genome.
 
-<index base name> - Base name of generated index file.
+index_base_name - Base name of generated index file.
 
 Alignment 
 
 Command-line usage:
 
-bowtie2 -q -x <index> -1 <left read> -2 <right read> -S <alignment file>
+bowtie2 -q -x index -1 left_read -2 right_read -S alignment_file
 
 where
 
 bowtie2 - Bowtie command for alignment.
 
-<index> - prefix for bowtie index.
+index - prefix for bowtie index.
 
-<left read> - reads generated from forward strand.
+left_read - reads generated from forward strand.
 
-<right read> - reads generated from reverse strand.
+right_read - reads generated from reverse strand.
 
-<alignment file> - alignment file in .sam format.
+alignment_file - alignment file in .sam format.
 
 ### Conversion of .sam file format to .bam file format
 
@@ -54,13 +54,13 @@ Samtools view utility is used to convert alignment file format from .sam format 
 
 Command-line usage:
 
-samtools view -bS <input file> > <output file>
+samtools view -bS input_file > output_file
 
 where
 
-<input file> - Alignment file in .sam format.
+input_file - Alignment file in .sam format.
 
-<output file> - Alignment file in .bam format.
+output_file - Alignment file in .bam format.
 
 ### Sorting of alignment file
 
@@ -72,9 +72,9 @@ samtools sort <input file> <base name>
 
 where
 
-<input file> - alignment file in .bam format.
+input_file - alignment file in .bam format.
 
-<base name> - Base name for sorted .bam format alignment file.
+base_name - Base name for sorted .bam format alignment file.
 
 ### Indexing of sorted file
 
@@ -82,11 +82,11 @@ Samtools index utility prepare index of sorted file.
 
 Command-line usage:
 
-samtools index <input file>
+samtools index input_file
 
 where
 
-<input file> - sorted alignment file in .bam format.
+input_file - sorted alignment file in .bam format.
 
 ### Pileup file creation from sorted bam file
 
@@ -94,15 +94,15 @@ Samtools utility mpileup generates pileup file for each genomic base position.
 
 Command-line usage:
 
-samtools mpileup -B -f <reference genome> <sorted bam file> > <pileup file>
+samtools mpileup -B -f reference_genome sorted_bam_file > pileup_file
 
 where
 
-<reference genome> - Fasta format reference genome.
+reference_genome - Fasta format reference genome.
 
-<sorted bam file> - Coordinate sorted alignment file in .bam format.
+sorted_bam_file - Coordinate sorted alignment file in .bam format.
 
-<pileup file> - pileup file for each genomic position.
+pileup_file - pileup file for each genomic position.
 
 ### Variants calling
 
@@ -110,13 +110,13 @@ Bcftools view utility calls variants from samtools generated pileup file.
 
 Command-line usage:
 
-bcftools view -vcg <input file> > <vcf output>
+bcftools view -vcg input_file > vcf_output
 
 where
 
-<input file> - samtools generated pileup file.
+input_file - samtools generated pileup file.
 
-<vcf output> - .vcf format file containing raw output.
+vcf_output - .vcf format file containing raw output.
 
 
 ###### Command line implementation.

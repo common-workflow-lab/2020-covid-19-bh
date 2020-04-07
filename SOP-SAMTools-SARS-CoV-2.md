@@ -1,7 +1,11 @@
 ### Author
+
 AMBARISH KUMAR
+
 er.ambarish@gmail.com
+
 ambari73_sit@jnu.ac.in
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Standard Operating Protocol using SAMTools serves the purpose of genome variants discovery i.e SNPs and INDELS. It will be useful in analysing genomic 

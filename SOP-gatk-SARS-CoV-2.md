@@ -14,6 +14,17 @@ This is standard operating protocol for genomic variant detection using GTK3. Th
 
 It uses paired-end illumina SARS-CoV-2 RNASEQ reads and reference genome.
 
+Tool description
+
+- Bowtie2
+
+- SAMTools
+
+- PICARD
+
+- GATK3
+
+
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 Purpose is to generate CWL script for SOP for genomic variant detection using GATK3. SARS-CoV-2 virus genome will be a case study for it.
@@ -70,6 +81,12 @@ S - option for .sam format alignment file.
 <right read> - reads generated from reverse strand.
 
 <alignment file> - alignment file in .sam format.
+      
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Data pre-processing using PICARD tools
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
 ## Add read groups, sort, mark duplicates, and create index
 
@@ -211,15 +228,27 @@ bowtie2 -q -x sars-cov-2 -1 sars-cov-2-reads_1.fq -2 sars-cov-2-reads_2.fq -S sa
 
 samtools faidx sars-cov-2.fasta
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+######## Data pre-processing using PICARD tools
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 java -jar CreateSequenceDictionary.jar R=sars-cov-2.fasta O=sars-cov-2.dict
 
-#### GATK command-line execution
+
 
 java -jar AddOrReplaceReadGroups.jar I=sars-cov-2-mutant.sam O=sars-cov-2-mutantsorted.bam RGID=1 RGLB=445_LIB RGPL=illumina RGSM=RNA RGPU=illumina
 
 java -jar  SortSam.jar I=sars-cov-2-mutantsorted.bam O=sars-cov-2-mutantsort2.bam CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT SO=coordinate
 
 java -jar  MarkDuplicates.jar I=sars-cov-2-mutantsort2.bam O=sars-cov-2-mutantmarkdup.bam CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT M=output.metrics 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+####### GATK command-line execution
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 java -jar GenomeAnalysisTK.jar -T SplitNCigarReads -R sars-cov-2.fasta -I sars-cov-2-mutantmarkdup.bam -o sars-cov-2-mutantsplit.bam -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS
 
@@ -231,9 +260,13 @@ java -jar GenomeAnalysisTK.jar -T SelectVariants -R sars-cov-2.fasta -V sars-cov
 
 java -jar GenomeAnalysisTK.jar -T SelectVariants -R sars-cov-2.fasta -V sars-cov-2-mutantfilter.vcf -o sars-cov-2-snp.vcf -selectType snp
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#### Final output file
+###### Final output file
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 sars-cov-2-snp.vcf - file containing filtered SNP.
+
 sars-cov-2-indel.vcf - file containing filtered INDEL.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -236,4 +236,4 @@ java -jar GenomeAnalysisTK.jar -T SelectVariants -R sars-cov-2.fasta -V sars-cov
 sars-cov-2-snp.vcf - file containing filtered SNP.
 sars-cov-2-indel.vcf - file containing filtered INDEL.
 
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -244,9 +244,9 @@ samtools faidx sars-cov-2.fasta
 
 ./gatk VariantFiltration -R sars-cov-2.fasta -V sars-cov-2-mutant.vcf -O sars-cov-2-mutantfilter.vcf 
 
-./gatk SelectVariants -R sars-cov-2.fasta -V sars-cov-2-mutantfilter.vcf -O sars-cov-2-indel.vcf -selectType indel
+./gatk SelectVariants -R sars-cov-2.fasta -V sars-cov-2-mutantfilter.vcf -O sars-cov-2-indel.vcf -select-type-to-include indel
 
-java -jar GenomeAnalysisTK.jar -T SelectVariants -R sars-cov-2.fasta -V sars-cov-2-mutantfilter.vcf -o sars-cov-2-snp.vcf -selectType snp
+./gatk SelectVariants -R sars-cov-2.fasta -V sars-cov-2-mutantfilter.vcf -O sars-cov-2-snp.vcf -select-type-to-include snp
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

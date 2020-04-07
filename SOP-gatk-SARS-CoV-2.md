@@ -5,9 +5,13 @@ AMBARISH KUMAR
 er.ambarish@gmail.com
 
 ambari73_sit@jnu.ac.in
+
 ----------------------------------------------------------------------------------------------------------------------------------------
+
 This standard operating protocol for genomic variant detection using GTK3. This will be effective and usefull for getting SARS-CoV-2 genome variants.
+
 ----------------------------------------------------------------------------------------------------------------------------------------
+
 It uses paired-end illumina SARS-CoV-2 RNASEQ reads and reference genome.
 
 ----------------------------------------------------------------------------------------------------------------------------------------

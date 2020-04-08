@@ -73,6 +73,7 @@ section of the script.
 
 ###### Generate JSON format input file - GATK4.json
 
+java -jar wdltool.jar inputs GATK4.wdl > GATK4.json
 
 ###### Runnig GATK4.wdl into command-line mode
 

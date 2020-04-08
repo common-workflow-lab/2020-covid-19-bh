@@ -218,7 +218,7 @@ export PATH=$PATH:/absolute path to bowtie executables/
 
 bowtie2-build sars-cov-2.fasta sars-cov-2
 
-bowtie2 -q -x sars-cov-2 -1 sars-cov-2-reads_1.fq -2 sars-cov-2-reads_2.fq -S sars-cov-2.sam
+bowtie2 -q -x sars-cov-2 -1 sars-cov-2-reads_1.fq -2 sars-cov-2-reads_2.fq -S sars-cov-2-mutant.sam
 
 #### Preparation of index and dictionary files
 

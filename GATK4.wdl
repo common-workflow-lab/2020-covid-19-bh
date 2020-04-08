@@ -206,7 +206,7 @@ task Alignment {
 
   command {
 
-          export PATH=$PATH:/home/slavenode/Downloads/
+          export PATH=$PATH:/home/../../bowtie
 
           bowtie2-build ${ReferenceGenome} ${index} 
 

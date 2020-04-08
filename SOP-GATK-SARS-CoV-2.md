@@ -97,8 +97,8 @@ samtools faidx reference_genome
 In this step, we merge all read groups with different  sequencing lane reads and read group header @RG and assign a single read group header.
 
 Command-line usage:
-
-./gatk AddOrReplaceReadGroups -I input_file -O output_file_name -ID rgid_id -LB rglb_string -PL rgpl_string -SM rgsm _string -PU rgpu_string
+ 
+./gatk AddOrReplaceReadGroups -I input_file -O output_file_name -RGID rgid_id -RGLB rglb_string -RGPL rgpl_string -RGSM rgsm _string -RGPU rgpu_string
 
 Where
 
@@ -122,7 +122,7 @@ This step sorts and indexes the reads, and converts between SAM to BAM format. T
 
 Command-line usage:
 
-./gatk SortSam -I input_file -O output_file -SO coordinate
+./gatk SortSam -I input_file -O output_file -CREATE_INDEX true -VALIDATION_STRINGENCY LENIENT -SO coordinate
 
 Where
 
@@ -138,7 +138,7 @@ Duplicate sequenced reads are marked and removed using PICARD tool MarkDuplicate
 
 Command-line usage:
 
-./gatk MarkDuplicates -I input_file -O output_file -M output_metrics 
+./gatk MarkDuplicates -I input_file -O output_file -CREATE_INDEX true -VALIDATION_STRINGENCY LENIENT -M output_metrics 
 
 Where
 
@@ -167,13 +167,22 @@ outputfile - split .bam output file.
 
 ## Variant calling
 
-HaplotypeCaller - calls all plausible haplotypes and detect variants. 
+samtools index split_bam_file > split_bam_file_index
+
+HaplotypeCaller - calls all plausible haplotypes and detect variants. Prior running haplotypecaller go for indexing split bam file.
 
 Command-line usage:
 
+  samtools index split_bam_file > split_bam_file_index
+  
+  
 ./gatk HaplotypeCaller -R reference_sequence -I input_file -O output_file 
 
 Where
+
+split_bam_file - .bam file (output of SplitNCigarReads)
+
+split_bam_file_index - indexed bam file 
 
 input_file   -   split bam file.
 
@@ -240,6 +249,8 @@ samtools faidx sars-cov-2.fasta
 
 ./gatk SplitNCigarReads -R sars-cov-2.fasta -I sars-cov-2-mutantmarkdup.bam -O sars-cov-2-mutantsplit.bam -RF ReassignOneMappingQuality 
 
+ samtools index  sars-cov-2-mutantsplit.bam >  sars-cov-2-mutantsplit.bam.bai
+ 
 ./gatk HaplotypeCaller -R sars-cov-2.fasta -I sars-cov-2-mutantsplit.bam -O sars-cov-2-mutant.vcf 
 
 ./gatk VariantFiltration -R sars-cov-2.fasta -V sars-cov-2-mutant.vcf -O sars-cov-2-mutantfilter.vcf 

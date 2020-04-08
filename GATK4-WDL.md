@@ -44,6 +44,23 @@ java -jar wdltool.jar validate GATK4.wdl
 
 java -jar wdltool.jar inputs GATK4.wdl > GATK4.json
 
+## Setting input file parameters
+
+ - base name for reference genome index file i.e SARS-CoV-2
+ 
+ - Reference genome dictionary file (along with absolute path) i.e home/../../SARS-CoV-2.dict
+ 
+ - Reference genome index file (along with absolute path) i.e /home/../../SARS-CoV-2.fasta.fai
+ 
+ - Reference genome fasta file (along with absolute path) i.e /home/../../SARS-CoV-2.fasta
+ 
+ - Left-end reads (along with absolute path) - /home/../../SARS-CoV-2_reads1.fq
+
+ - Right-end reads (along with absolute path) - /home/../../SARS-CoV-2_reads2.fq
+ 
+ - GATK executables (along with absolute path) - /home/../../gatk
+
+
 ## Running WDL script
 
 Prior runnig GATK4.wdl script, set absolute PATH for bowtie executables to set PATH environment variable mentioned into alignment task 

@@ -1,3 +1,11 @@
+# Author
+
+AMBARISH KUMAR
+
+er.ambarish@gmail.com
+
+ambari73_sit@jnu.ac.in
+
 ## Introduction
 
 WDL enabled GATK4 pipeline for genomic variant discovery serves the purpose of automation and customisarion. GATK4 is a bundled package of gatk  and picard tools. All steps for data pre-processing and variant discoery is piped all together in a single wdl script.
@@ -61,3 +69,8 @@ It will start CROMWELL REST API
 - Browse for input files 
 
 - Submit task
+
+
+### Future work
+
+Deployment over cloud-infrastructure.

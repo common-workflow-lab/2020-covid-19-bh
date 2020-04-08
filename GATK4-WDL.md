@@ -24,7 +24,7 @@ SARS-CoV-2 reference genome index file - SARS-CoV-2.fasta.fai
 Paired-end SARS-Cov-2 illumina RNASEQ reads.
 
 - left_reads - SARS-CoV-2_reads1.fq
-
+ 
 - right_reads - SARS-CoV-2_reads2.fq
 
 

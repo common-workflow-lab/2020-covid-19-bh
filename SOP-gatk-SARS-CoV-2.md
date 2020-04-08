@@ -8,7 +8,7 @@ ambari73_sit@jnu.ac.in
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
-This is standard operating protocol for genomic variant detection using GTK3. This will be effective and usefull for getting SARS-CoV-2 genome variants.
+This is standard operating protocol for genomic variant detection using GATK4. This will be effective and usefull for getting SARS-CoV-2 genome variants.
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 

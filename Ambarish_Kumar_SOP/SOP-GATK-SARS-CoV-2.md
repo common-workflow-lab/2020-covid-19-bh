@@ -247,7 +247,7 @@ samtools faidx sars-cov-2.fasta
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-./gatk SplitNCigarReads -R sars-cov-2.fasta -I sars-cov-2-mutantmarkdup.bam -O sars-cov-2-mutantsplit.bam -RF ReassignOneMappingQuality 
+./gatk SplitNCigarReads -R sars-cov-2.fasta -I sars-cov-2-mutantmarkdup.bam -O sars-cov-2-mutantsplit.bam  
 
  samtools index  sars-cov-2-mutantsplit.bam >  sars-cov-2-mutantsplit.bam.bai
  

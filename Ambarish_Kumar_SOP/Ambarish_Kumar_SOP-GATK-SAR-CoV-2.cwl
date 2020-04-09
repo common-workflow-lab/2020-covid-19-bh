@@ -2,6 +2,9 @@
 cwlVersion: v1.0
 class: Workflow
 
+requirements:
+  StepInputExpressionRequirement: {}
+
 doc: |
   Author: AMBARISH KUMAR er.ambarish@gmail.com & ambari73_sit@jnu.ac.in
   This is a proposed standard operating procedure for genomic variant detection using GATK4.
@@ -86,8 +89,8 @@ steps:
       reads: mark_duplicates/bam_duprem
       output_filename:
         valueFrom: sars-cov-2-mutantsplit.bam
-      read_filter:
-        valueFrom: ReassignOneMappingQuality
+      # read_filter:  # Not available in GATK4
+      #   valueFrom: ReassignOneMappingQuality  
     out: [ output ]
 
   index_split_alignments:
@@ -120,7 +123,7 @@ steps:
       reference: create_sequence_dictionary/sequences_with_dictionary
       variant: filer_out_low_quality_variants/output
       select_type_to_include:
-        valueFrom: indel
+        valueFrom: INDEL
       output_filename:
         valueFrom: sars-cov-2-indel.vcf
     out: [ output ]
@@ -131,7 +134,7 @@ steps:
       reference: create_sequence_dictionary/sequences_with_dictionary
       variant: filer_out_low_quality_variants/output
       select_type_to_include:
-        valueFrom: snp
+        valueFrom: SNP
       output_filename:
         valueFrom: sars-cov-2-indel.vcf
     out: [ output ]

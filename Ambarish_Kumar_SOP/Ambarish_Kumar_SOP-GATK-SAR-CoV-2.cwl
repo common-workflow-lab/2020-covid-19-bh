@@ -79,7 +79,7 @@ steps:
       bam_sorted: update_read_group/sequences_with_new_read_group
     out: [ bam_duprem ]
 
-  split_N_cigar_reads:
+  split_alignments:
     run: ../tools/GATK/GATK-SplitNCigarReads.cwl
     in:
       reference: create_sequence_dictionary/sequences_with_dictionary
@@ -89,5 +89,62 @@ steps:
       read_filter:
         valueFrom: ReassignOneMappingQuality
     out: [ output ]
+
+  index_split_alignments:
+    run: ../tools/samtools/samtools_index.cwl
+    in:
+      bam_sorted: split_alignments/output
+    out: [ bam_sorted_indexed ]
+
+  call_plausible_haplotypes_and_detect_variants:
+    run: ../tools/GATK/GATK-HaplotypeCaller.cwl
+    in:
+      reference: create_sequence_dictionary/sequences_with_dictionary
+      input: index_split_alignments/bam_sorted_indexed
+      output_filename:
+        valueFrom: sars-cov-2-mutant.vcf
+    out: [ output ]
+
+  filer_out_low_quality_variants:
+    run: ../tools/GATK/GATK-VariantFiltration.cwl
+    in:
+      reference: create_sequence_dictionary/sequences_with_dictionary
+      variant: call_plausible_haplotypes_and_detect_variants/output
+      output_filename:
+        valueFrom: sars-cov-2-mutantfilter.vcf
+    out: [output]
+
+  select_indels:
+    run: ../tools/GATK/GATK-SelectVariants.cwl
+    in:
+      reference: create_sequence_dictionary/sequences_with_dictionary
+      variant: filer_out_low_quality_variants/output
+      select_type_to_include:
+        valueFrom: indel
+      output_filename:
+        valueFrom: sars-cov-2-indel.vcf
+    out: [ output ]
+
+  select_snps:
+    run: ../tools/GATK/GATK-SelectVariants.cwl
+    in:
+      reference: create_sequence_dictionary/sequences_with_dictionary
+      variant: filer_out_low_quality_variants/output
+      select_type_to_include:
+        valueFrom: snp
+      output_filename:
+        valueFrom: sars-cov-2-indel.vcf
+    out: [ output ]
  
-outputs: []
+outputs:
+  indels:
+    type: File
+    outputSource: select_indels/output
+  snps:
+    type: File
+    outputSource: select_snps/output
+
+$namespaces:
+  edam: http://edamontology.org/
+$schemas:
+  - http://edamontology.org/EDAM_1.18.owl

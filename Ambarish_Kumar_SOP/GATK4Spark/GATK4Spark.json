@@ -1,0 +1,10 @@
+{
+  "variantcall.name": "ebola",
+  "variantcall.refDict": "/path to directory/ebola.dict",
+  "variantcall.refIndex": "/path to directory/ebola.fasta.fai",
+  "variantcall.Alignment.rightFastq": "/path to directory/ebolaMUTANT_2.fq",
+  "variantcall.referenceGenome": "/path to directory/ebola.fasta",
+  "variantcall.gatk": "/path to directory/gatk",
+  "variantcall.Alignment.leftFastq": "/path to directory/ebolaMUTANT_1.fq",
+"variantcall.HaplotypeCallerSpark.Reference2bitGenome": "/path to directory/ebola_ref.2bit"
+}

@@ -1,5 +1,0 @@
-## SVDetect workflow
-
-### Steps
-
-#### 

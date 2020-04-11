@@ -117,9 +117,9 @@ where
 input_file - samtools generated pileup file.
 
 vcf_output - .vcf format file containing raw output.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-###### Command line implementation.
+### Command line implementation.
 
 
 #### Input dataset
@@ -146,6 +146,7 @@ samtools index SARS-CoV-2-mutantsorted.bam
 
 samtools mpileup -uf SARS-CoV-2.fasta SARS-CoV-2-mutantsorted.bam | bcftools view -vcg - > SARS-CoV-2-mutantraw.vcf
 
+#### Output
 
 Output file - SARS-CoV-2-mutantraw.vcf is combined file containing SNPs and INDELs.
 

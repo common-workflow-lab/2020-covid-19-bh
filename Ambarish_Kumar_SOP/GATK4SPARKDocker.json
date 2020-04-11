@@ -1,0 +1,14 @@
+{
+  "variantcall.name": "ebola",
+  "variantcall.refDict": "/path of directory/ebola.dict",
+  "variantcall.refIndex": "/path of directory/ebola.fasta.fai",
+  "variantcall.Alignment.rightFastq": "/path of directory/ebolaMUTANT_2.fq",
+  "variantcall.referenceGenome": "/path of directory/ebola.fasta",
+  "variantcall.gatk_docker": "broadinstitute/gatk:4.1.0.0",
+  "variantcall.gatk_path": "/gatk/gatk.jar",
+  "variantcall.Alignment.leftFastq": "/path of directory/ebolaMUTANT_1.fq",
+"variantcall.HaplotypeCallerSpark.Reference2bitGenome": "/path of directory/ebola.fasta"
+}
+
+
+

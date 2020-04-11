@@ -6,6 +6,8 @@ er.ambarish@gmail.com
 
 ambari73_sit@jnu.ac.in
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 SOP for genomic variant discovery using VARSCAN would be beneficial in detecting SARS2 genomic variations.
 
 It utilises paired-end illunina RNASEQ reads and reference genome for SARS2 virus.
@@ -17,7 +19,7 @@ Tools description is below
 - SAMTools
 
 - VARSCAN
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Mapping to reference genome
 
 Mutated read data are mapped against reference genome using bowtie.
@@ -162,12 +164,15 @@ input_file - samtools generated pileup file in .pileup format.
 
 output_file -.vcf format file containing called CNS.
 
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### Command-line implementation of standard operating protocol for variant calling using VARSCAN
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Standard dataset of simulated mutant reads from Ebola reference genome is used to test and implement variant calling protocol using VARSCAN. Command-line scripts for the protocol are described below.
 
+----------------------------------------------------------------------------------------------------------------------------------------
 #### Input dataset
+----------------------------------------------------------------------------------------------------------------------------------------
 
 SARS-CoV-2.fasta - SARS-CoV-2 reference genome.
 
@@ -175,13 +180,17 @@ SARS-CoV-2-reads_1.fq - left-end reads.
 
 SARS-CoV-2-reads_2.fq - right-end reads.
 
+----------------------------------------------------------------------------------------------------------------------------------------
 #### Preparation of alignment file
+----------------------------------------------------------------------------------------------------------------------------------------
 
 bowtie2-build SARS-CoV-2.fasta SARS-CoV-2
 
 bowtie2 -q -x SARS-CoV-2 -1 SARS-CoV-2-reads_1.fq -2 SARS-CoV-2-reads_2.fq -S SARS-CoV-2-mutant.sam
 
+----------------------------------------------------------------------------------------------------------------------------------------
 #### Pre-processing of alignment-file
+----------------------------------------------------------------------------------------------------------------------------------------
 
 samtools view -bS SARS-CoV-2-mutant.sam > SARS-CoV-2-mutant.bam
 
@@ -189,11 +198,15 @@ samtools sort SARS-CoV-2-mutant.bam SARS-CoV-2-mutantsorted
 
 samtools index SARS-CoV-2-mutantsorted.bam
 
+----------------------------------------------------------------------------------------------------------------------------------------
 #### Pileup-file generation
+----------------------------------------------------------------------------------------------------------------------------------------
 
 samtools mpileup -B -f SARS-CoV-2.fasta SARS-CoV-2-mutantsorted.bam > SARS-CoV-2-mutant.mpileup
 
+----------------------------------------------------------------------------------------------------------------------------------------
 #### Variant calling
+----------------------------------------------------------------------------------------------------------------------------------------
 
 java -jar VarScan.v2.3.9.jar mpileup2snp SARS-CoV-2-mutant.mpileup > SARS-CoV-2-mutantsnp.vcf
 
@@ -201,7 +214,9 @@ java -jar VarScan.v2.3.9.jar  mpileup2indel SARS-CoV-2-mutant.mpileup > SARS-CoV
 
 java -jar VarScan.v2.3.9.jar mpileup2cns SARS-CoV-2-mutant.mpileup > SARS-CoV-2-mutantcns.vcf
 
+----------------------------------------------------------------------------------------------------------------------------------------
 #### Final output files
+----------------------------------------------------------------------------------------------------------------------------------------
 
 SARS-CoV-2-mutantsnp.vcf - .vcf file format file containing filtered SNPs.
 

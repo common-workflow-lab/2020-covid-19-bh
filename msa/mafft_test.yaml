@@ -1,0 +1,7 @@
+sequences:
+  class: File
+  path: sprot.fasta
+  format: edam:format_1929  # FASTA
+  #from https://github.com/naturalis/bio-cipres/blob/a0339d750bc4c7ab68f54197fa85af3109a8438d/t/sprot.fasta
+ 
+anysymbol: true

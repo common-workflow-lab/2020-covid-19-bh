@@ -1,0 +1,8 @@
+alignments:
+  class: File
+  path: sars-cov-2.aln.alignment.fasta
+  format: edam:format_1929  # FASTA
+
+ultrafast_bootstrap_replicates: 1000
+optimize_ufboot: true
+subsitution_model: HKY

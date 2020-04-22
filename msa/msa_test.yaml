@@ -1,0 +1,4 @@
+sequences:
+  class: File
+  location: https://github.com/naturalis/bio-cipres/raw/master/data/genomes/sars-cov-2.fasta.gz
+  format: edam:format_1929  # FASTA

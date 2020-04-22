@@ -111,6 +111,10 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.alignments.basename).uniqueseq.phy
+  log:
+    type: File
+    outputBinding:
+      glob: $(inputs.alignments.basename).log
 
 $namespaces:
   s: http://schema.org/
@@ -119,4 +123,3 @@ $namespaces:
 $schemas:
 - http://schema.org/version/latest/schema.rdf
 - http://edamontology.org/EDAM_1.18.owl
-

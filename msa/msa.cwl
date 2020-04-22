@@ -32,3 +32,8 @@ outputs:
   consensus_tree:
     type: File
     outputSource: build_consensus_tree/consensus_tree
+
+$namespaces:
+  edam: http://edamontology.org/
+$schemas:
+  - http://edamontology.org/EDAM_1.18.owl

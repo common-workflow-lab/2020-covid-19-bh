@@ -18,6 +18,8 @@ baseCommand: iqtree
 
 arguments: 
  - prefix: -nt
+   valueFrom: AUTO
+ - prefix: -ntmax
    valueFrom: $(runtime.cores)
  - prefix: -seed
    valueFrom: "1"
@@ -103,12 +105,43 @@ inputs:
       .                  (rate parameters and state frequencies)
 
 outputs: 
-  consensus_tree:
+  result_tree:
+    label: Maximum-likelihood tree
     type: File
     outputBinding:
       glob: $(inputs.alignments.basename).treefile
+  distances:
+    label: Likelihood distances
+    type: File
+    outputBinding:
+      glob: $(inputs.alignments.basename).mldist
+  model_information:
+    type: File
+    outputBinding:
+       glob: $(inputs.alignments.basename).model.gz
+  split_supports:
+    type: File
+    label: Ultrafast bootstrap approximation split support values
+    outputBinding:
+       glob: $(inputs.alignments.basename).splits.nex
+  ufboot_trees:
+    type: File
+    label: Ultrafast bootstrap approximation UFBoot trees
+    outputBinding:
+       glob: $(inputs.alignments.basename).ufboot
+  consensus_tree:
+    type: File
+    label: Ultrafast bootstrap approximation consensus tree
+    outputBinding:
+       glob: $(inputs.alignments.basename).contree
+  report:
+    label: IQ-TREE Report
+    type: File
+    outputBinding:
+       glob: $(inputs.alignments.basename).iqtree
   alignment_with_unique_sequences:
     type: File
+    label: alignment with unique sequences
     outputBinding:
       glob: $(inputs.alignments.basename).uniqueseq.phy
   log:

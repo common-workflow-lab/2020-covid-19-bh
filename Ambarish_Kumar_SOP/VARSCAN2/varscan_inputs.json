@@ -1,0 +1,7 @@
+{
+  "varscan.name": "ebola",
+  "varscan.Alignment.rightFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_2.fq",
+  "varscan.referenceGenome": "/home/ngsap2/Downloads/ebola.fasta",
+  "varscan.varscanPath": "/home/ngsap2/Downloads/VarScan.v2.3.9.jar",
+  "varscan.Alignment.leftFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_1.fq"
+}

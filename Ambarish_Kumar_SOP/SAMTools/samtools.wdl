@@ -1,4 +1,4 @@
-workflow varscan {
+workflow samtools {
 
  
   File referenceGenome

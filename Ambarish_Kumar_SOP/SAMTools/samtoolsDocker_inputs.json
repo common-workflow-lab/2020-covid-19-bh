@@ -1,0 +1,11 @@
+{
+  "varscan.name": "ebola",
+  "varscan.Alignment.rightFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_2.fq",
+  "varscan.referenceGenome": "/home/ngsap2/Downloads/ebola.fasta",
+  "varscan.varscanDocker": "quay.io/biocontainers/varscan:2.3.7--3",
+  "varscan.samtoolsDocker": "genomicpariscentre/samtools",
+  "varscan.bowtieDocker": "comics/bowtie2",
+  "varscan.bcftoolsDocker": "dceoy/bcftools",
+  "varscan.Alignment.leftFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_1.fq"
+}
+     

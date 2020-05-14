@@ -1,0 +1,9 @@
+{
+  "varscan.name": "ebola",
+  "varscan.Alignment.rightFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_2.fq",
+  "varscan.referenceGenome": "/home/ngsap2/Downloads/ebola.fasta",
+  "varscan.samtoolsPath": "/home/ngsap2/Downloads/samtools-1.10",
+  "varscan.bcftoolsPath": "/home/ngsap2/Downloads/bcftools-1.10.2",
+  "varscan.Alignment.leftFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_1.fq"
+}
+    

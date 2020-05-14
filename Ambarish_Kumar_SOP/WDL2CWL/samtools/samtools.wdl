@@ -1,34 +1,29 @@
-<<<<<<< HEAD
-workflow varscan {
-=======
-workflow samtoolsDocker {
->>>>>>> fbf528dd5d1c2b712ee8a02dbd07dea18508ccf2
+workflow samtools {
 
-  String bowtieDocker
-  String samtoolsDocker
-  String bcftoolsDocker 
+ 
   File referenceGenome
   String name
+  String samtoolsPath
+  String bcftoolsPath
  
   call Alignment {
     input:
          ReferenceGenome=referenceGenome,
          sampleName=name,
-         docker = bowtieDocker,
          index=name
 }
 
  call samtoolsView {
     input:
          inputSAM=Alignment.rawSAM,
-         docker = samtoolsDocker,
+         samtoolsPath = samtoolsPath,
          sampleName=name
 }
 
  call samtoolsSort {
     input:
          inputBAM=samtoolsView.rawBAM,
-         docker = samtoolsDocker,
+         samtoolsPath = samtoolsPath,
          sampleName=name
     
 }
@@ -36,7 +31,7 @@ workflow samtoolsDocker {
  call samtoolsIndex {
     input:
         inputBAM=samtoolsSort.rawBAM,
-        docker = samtoolsDocker,
+        samtoolsPath = samtoolsPath,
         sampleName=name
 }
 
@@ -45,8 +40,9 @@ workflow samtoolsDocker {
    input:
         inputBAM=samtoolsSort.rawBAM,
         sampleName=name,
-        ReferenceGenome=referenceGenome,
-        docker=bcftoolsDocker
+        bcftoolsPath = bcftoolsPath,
+        ReferenceGenome=referenceGenome
+       
 } 
         }
 
@@ -57,19 +53,17 @@ task Alignment {
   File ReferenceGenome
   String sampleName
   String index
-  String docker
+
 
   command {
-          
+           
+          export PATH=$PATH:/home/ngsap2/Downloads/bowtie2-2.4.1
+
           bowtie2-build ${ReferenceGenome} ${index} 
           
           bowtie2 -q -x ${index} -1 ${leftFastq} -2 ${rightFastq} -S ${sampleName}.sam           
 }
 
-runtime
-{
-  docker:docker
-}
 
 output {
     
@@ -83,15 +77,12 @@ task samtoolsView {
  
  File inputSAM
  String sampleName
- String docker
+ String samtoolsPath
+ 
  command {
             samtools view -bS ${inputSAM} > ${sampleName}.bam
 }
 
-runtime
-{
-  docker:docker
-}
 
 output {
  
@@ -105,17 +96,12 @@ task samtoolsSort {
 
  File inputBAM
  String sampleName
- String docker
+ String samtoolsPath
 
 command {
 
   samtools sort -l 0 -o ${sampleName}.sorted.bam ${inputBAM}
 
-}
-
-runtime
-{
-  docker:docker
 }
 
 output {
@@ -130,7 +116,7 @@ task samtoolsIndex {
 
  File inputBAM
  String sampleName
- String docker
+ String samtoolsPath
 
 command {
 
@@ -138,10 +124,6 @@ command {
   
  }
 
-runtime
-{
-  docker:docker
-}
 
 output {
  
@@ -151,26 +133,18 @@ output {
 
 }
 
-
-
 task bcftools
 {
 
 File inputBAM
 String sampleName
 File ReferenceGenome
-String docker
-
+String bcftoolsPath
 
 command {
 
 bcftools mpileup -f ${ReferenceGenome} ${inputBAM} | bcftools call -mv -Ob -o ${sampleName}.vcf
  
-}
-
-runtime
-{
-  docker:docker
 }
 
 output{

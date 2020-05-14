@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-workflow varscan {
-=======
-workflow samtoolsDocker {
->>>>>>> fbf528dd5d1c2b712ee8a02dbd07dea18508ccf2
+workflow samtoolsDocker     
+{
 
   String bowtieDocker
   String samtoolsDocker

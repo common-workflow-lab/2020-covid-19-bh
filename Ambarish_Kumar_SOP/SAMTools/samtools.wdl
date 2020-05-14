@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 workflow varscan {
+=======
+workflow samtools {
+>>>>>>> fbf528dd5d1c2b712ee8a02dbd07dea18508ccf2
 
  
   File referenceGenome

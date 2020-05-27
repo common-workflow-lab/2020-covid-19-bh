@@ -61,7 +61,7 @@ steps:
 
   index_reference_genome_with_bowtie2:
 
-    run: ../tools/bowtie2/bowtie2_build.cwl
+    run: ../../tools/tools/bowtie2/bowtie2_build.cwl
 
     in:
 
@@ -77,7 +77,7 @@ steps:
 
   align_rnaseq_reads_to_genome:
 
-    run: ../tools/bowtie2/bowtie2_align.cwl
+    run: ../../tools/tools/bowtie2/bowtie2_align.cwl
 
     in:
 
@@ -97,7 +97,7 @@ steps:
 
   index_reference_genome_with_samtools:
 
-    run: ../tools/samtools/samtools_faidx.cwl
+    run: ../../tools/tools/samtools/samtools_faidx.cwl
 
     in: 
 
@@ -109,7 +109,7 @@ steps:
 
   sam_to_bam_conversion_using_samtools_view:
 
-    run: ../tools/samtools/samtools_view_sam2bam.cwl
+    run: ../../tools/tools/samtools/samtools_view_sam2bam.cwl
 
     in: 
 
@@ -120,7 +120,7 @@ steps:
 
   sort_alignment_files_using_samtools_sort:
    
-    run: ../tools/samtools/samtools_sort.cwl
+    run: ../../tools/tools/samtools/samtools_sort.cwl
 
     in: 
 
@@ -132,7 +132,7 @@ steps:
   
   index_bam_files_using_samtools_index:
     
-    run: ../tools/samtools/samtools_index.cwl
+    run: ../../tools/tools/samtools/samtools_index.cwl
 
     in: 
 
@@ -143,7 +143,7 @@ steps:
 
   mpileup_generation_using_samtools_mpileup:
    
-    run: ../tools/samtools/samtools_mpileup.cwl
+    run: ../../tools/tools/samtools/samtools_mpileup.cwl
     
     in:
       
@@ -160,7 +160,7 @@ steps:
   
   snp_calling_using_mpileup2snp:
 
-    run: ../tools/varscan/mpileup2snp.cwl
+    run: ../../tools/tools/varscan/mpileup2snp.cwl
 
     in:
 

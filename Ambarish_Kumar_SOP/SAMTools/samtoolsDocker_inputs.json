@@ -1,11 +1,11 @@
 {
-  "varscan.name": "ebola",
-  "varscan.Alignment.rightFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_2.fq",
-  "varscan.referenceGenome": "/home/ngsap2/Downloads/ebola.fasta",
-  "varscan.varscanDocker": "quay.io/biocontainers/varscan:2.3.7--3",
-  "varscan.samtoolsDocker": "genomicpariscentre/samtools",
-  "varscan.bowtieDocker": "comics/bowtie2",
-  "varscan.bcftoolsDocker": "dceoy/bcftools",
-  "varscan.Alignment.leftFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_1.fq"
+  "samtoolsDocker.name": "ebola",
+  "samtoolsDocker.Alignment.rightFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_2.fq",
+  "samtoolsDocker.referenceGenome": "/home/ngsap2/Downloads/ebola.fasta",
+  "samtoolsDocker.varscanDocker": "quay.io/biocontainers/varscan:2.3.7--3",
+  "samtoolsDocker.samtoolsDocker": "genomicpariscentre/samtools",
+  "samtoolsDocker.bowtieDocker": "comics/bowtie2",
+  "samtoolsDocker.bcftoolsDocker": "dceoy/bcftools",
+  "samtoolsDocker.Alignment.leftFastq": "/home/ngsap2/Downloads/ebola_DELDUPDELreads_1.fq"
 }
      

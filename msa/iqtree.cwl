@@ -11,8 +11,16 @@ requirements:
 hints:
   ResourceRequirement:
     coresMin: 8
+    ramMin: 30720
   DockerRequirement:
     dockerPull: quay.io/biocontainers/iqtree:1.6.9--he860b03_1
+  SoftwareRequirement:
+    packages:
+      iqtree:
+        version: ["1.6.9"]
+        specs: 
+          - https://bio.tools/iq-tree
+          - https://identifiers.org/RRID/RRID:SCR_017254
 
 baseCommand: iqtree
 
@@ -36,13 +44,19 @@ inputs:
     type: File
     format: edam:format_1929  # FASTA
     inputBinding:
-      prefix: "-s"
+      prefix: -s
 
   optimize_ufboot:
     type: boolean?
     doc: Optimize UFBoot trees by NNI on bootstrap alignment
     inputBinding:
       prefix: -bnni
+
+  ultrasfast_max_iterations:
+    type: int?
+    label: "Maximum number of iterations (default: 1000)"
+    inputBinding:
+      prefix: -nm
 
   ultrafast_bootstrap_replicates:
     type: int?
@@ -112,40 +126,40 @@ outputs:
       glob: $(inputs.alignments.basename).treefile
   distances:
     label: Likelihood distances
-    type: File
+    type: File?
     outputBinding:
       glob: $(inputs.alignments.basename).mldist
   model_information:
-    type: File
+    type: File?
     outputBinding:
        glob: $(inputs.alignments.basename).model.gz
   split_supports:
-    type: File
+    type: File?
     label: Ultrafast bootstrap approximation split support values
     outputBinding:
        glob: $(inputs.alignments.basename).splits.nex
   ufboot_trees:
-    type: File
+    type: File?
     label: Ultrafast bootstrap approximation UFBoot trees
     outputBinding:
        glob: $(inputs.alignments.basename).ufboot
   consensus_tree:
-    type: File
+    type: File?
     label: Ultrafast bootstrap approximation consensus tree
     outputBinding:
        glob: $(inputs.alignments.basename).contree
   report:
     label: IQ-TREE Report
-    type: File
+    type: File?
     outputBinding:
        glob: $(inputs.alignments.basename).iqtree
   alignment_with_unique_sequences:
-    type: File
+    type: File?
     label: alignment with unique sequences
     outputBinding:
       glob: $(inputs.alignments.basename).uniqueseq.phy
   log:
-    type: File
+    type: File?
     outputBinding:
       glob: $(inputs.alignments.basename).log
 
@@ -153,6 +167,6 @@ $namespaces:
   s: http://schema.org/
   edam: http://edamontology.org/
 
-$schemas:
-- http://schema.org/version/latest/schema.rdf
-- http://edamontology.org/EDAM_1.18.owl
+# $schemas:
+# - "http://schema.org/version/latest/schema.rdf"
+# - "http://edamontology.org/EDAM_1.18.owl"
